@@ -50,7 +50,7 @@ cmake_ninja_workdir = C$:\Users\ghisl\OneDrive\Informatique$ perso\learncpp\cmak
 build cmake_object_order_depends_target_learn-cpp: phony || CMakeFiles\learn-cpp.dir
 
 build CMakeFiles\learn-cpp.dir\main.cpp.obj: CXX_COMPILER__learn-cpp_Debug C$:\Users\ghisl\OneDrive\Informatique$ perso\learncpp\main.cpp || cmake_object_order_depends_target_learn-cpp
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -Zi -std:c++17
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -Zi -std:c++20
   OBJECT_DIR = CMakeFiles\learn-cpp.dir
   OBJECT_FILE_DIR = CMakeFiles\learn-cpp.dir
   TARGET_COMPILE_PDB = CMakeFiles\learn-cpp.dir\
