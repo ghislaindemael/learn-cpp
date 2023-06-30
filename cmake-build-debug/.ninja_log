@@ -1,0 +1,5 @@
+# ninja log v5
+1	491	7098240178581033	CMakeFiles/learncpp.dir/main.cpp.obj	bd792cf9a301bca3
+492	638	7098240179745102	learncpp.exe	42b63a858471e731
+557	621	7095971738619782	test_library.lib	9a138058d19e57d9
+1	556	7095971737947419	CMakeFiles/test_library.dir/calc.cpp.obj	27f9fc95fb660fb7
