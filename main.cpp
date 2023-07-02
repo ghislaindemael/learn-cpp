@@ -2,7 +2,11 @@
 
 int main()
 {
-    std::cout << sizeof(int); // print how many bytes of memory an int value takes
+    std::cout << "Enter an integer: ";
+    int value = { };
+    std::cin >> value;
+    value = value * 2;
+    std::cout << "Double that number is: " << value;
 
     return 0;
 }
