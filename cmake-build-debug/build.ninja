@@ -56,6 +56,13 @@ build CMakeFiles\learn-cpp.dir\main.cpp.obj: CXX_COMPILER__learn-cpp_Debug C$:\U
   TARGET_COMPILE_PDB = CMakeFiles\learn-cpp.dir\
   TARGET_PDB = learn-cpp.pdb
 
+build CMakeFiles\learn-cpp.dir\add.cpp.obj: CXX_COMPILER__learn-cpp_Debug C$:\Users\ghisl\OneDrive\Informatique$ perso\learncpp\add.cpp || cmake_object_order_depends_target_learn-cpp
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -Zi -std:c++20
+  OBJECT_DIR = CMakeFiles\learn-cpp.dir
+  OBJECT_FILE_DIR = CMakeFiles\learn-cpp.dir
+  TARGET_COMPILE_PDB = CMakeFiles\learn-cpp.dir\
+  TARGET_PDB = learn-cpp.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target learn-cpp
@@ -64,7 +71,7 @@ build CMakeFiles\learn-cpp.dir\main.cpp.obj: CXX_COMPILER__learn-cpp_Debug C$:\U
 #############################################
 # Link the executable learn-cpp.exe
 
-build learn-cpp.exe: CXX_EXECUTABLE_LINKER__learn-cpp_Debug CMakeFiles\learn-cpp.dir\main.cpp.obj
+build learn-cpp.exe: CXX_EXECUTABLE_LINKER__learn-cpp_Debug CMakeFiles\learn-cpp.dir\main.cpp.obj CMakeFiles\learn-cpp.dir\add.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od /RTC1 -MDd -Zi
   LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

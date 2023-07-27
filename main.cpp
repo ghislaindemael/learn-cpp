@@ -1,21 +1,9 @@
 #include <iostream>
 
-int doubleNumber(int num){
-    return num * 2;
-}
-
-int getNumberFromUser(){
-    std::cout << "Enter an integer: ";
-    int val { };
-    std::cin >> val;
-    return val;
-}
+int add(int x, int y); // needed so main.cpp knows that add() is a function defined elsewhere
 
 int main()
 {
-    int choice { getNumberFromUser() };
-    int doubled { doubleNumber(choice) };
-    std::cout << "Double of " << choice << " is " << doubled <<".\n";
-
+    std::cout << "The sum of 3 and 4 is: " << add(3, 4) << '\n';
     return 0;
 }
