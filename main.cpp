@@ -1,9 +1,12 @@
 #include <iostream>
 
-int add(int x, int y); // needed so main.cpp knows that add() is a function defined elsewhere
+int getInteger();
 
 int main()
 {
-    std::cout << "The sum of 3 and 4 is: " << add(3, 4) << '\n';
+    int x{ getInteger() };
+    int y{ getInteger() };
+
+    std::cout << x << " + " << y << " is " << x + y << '\n';
     return 0;
 }
