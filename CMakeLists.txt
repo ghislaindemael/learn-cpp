@@ -3,6 +3,6 @@ project(learn-cpp)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(learn-cpp main.cpp functions.cpp functions.h functions.h)
+add_executable(learn-cpp main.cpp io.cpp io.h io.h)
 
 

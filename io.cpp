@@ -1,5 +1,5 @@
 #include <iostream>
-#include "functions.h"
+#include "io.h"
 
 int readNumber(){
     std::cout << "Input an integer: ";
