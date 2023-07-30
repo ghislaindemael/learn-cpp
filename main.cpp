@@ -1,15 +1,23 @@
 #include <iostream>
 
-void printValue(int value)
+int readNumber()
 {
-    std::cout << value << '\n';
+    int x {};
+    std::cout << "Please enter a number: ";
+    std::cin >> x;
+    return x;
+}
+
+void writeAnswer(int x)
+{
+    std::cout << "The sum is: " << x << '\n';
 }
 
 int main()
 {
-    printValue(5);
-    printValue(6);
-    printValue(7);
+    int x { readNumber() };
+    x = x + readNumber();
+    writeAnswer(x);
 
     return 0;
 }
