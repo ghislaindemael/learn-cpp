@@ -1,33 +1,31 @@
 #include <iostream>
 
-double askForDouble(){
-    std::cout << "Enter a double value: ";
-    double d {};
-    std::cin >> d;
-    return d;
-}
-
-char askForOperator(){
-    std::cout << "Enter one of the following: +, -, *, or /: ";
-    char o {};
-    std::cin >> o;
-    return o;
+int askForHeight(){
+    std::cout << "Enter the height of the tower in meters: ";
+    int h {};
+    std::cin >> h;
+    return h;
 }
 
 int main()
 {
-    double d1 = askForDouble();
-    double d2 = askForDouble();
-    char o = askForOperator();
+    constexpr double gravity = 9.8;
+    int tower = askForHeight();
+    int seconds { 0 };
+    bool exit { false };
+    double height;
 
-    if (o == '+')
-        std::cout << d1 << " + " << d2 << " is " << d1 + d2;
-    else if (o == '-')
-        std::cout << d1 << " - " << d2 << " is " << d1 - d2;
-    else if (o == '*')
-        std::cout << d1 << " * " << d2 << " is " << d1 * d2;
-    else if (o == '/')
-        std::cout << d1 << " / " << d2 << " is " << d1 / d2;
+    while (!exit) {
+        height = tower - ((gravity * seconds * seconds) / 2);
+        if (height < 0) {
+            std::cout << "At " << seconds << " seconds, the ball is on the ground.\n";
+            exit = true;
+        } else {
+            std::cout << "At " << seconds << " seconds, the ball is at height: " << height << " meters.\n";
+            seconds = seconds + 1;
+        }
+    }
+
 
     return 0;
 }
