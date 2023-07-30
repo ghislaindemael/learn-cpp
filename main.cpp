@@ -1,26 +1,33 @@
 #include <iostream>
-#include <string>
 
-std::string askForName(){
-    std::cout << "Enter your full name: ";
-    std::string x {};
-    std::getline(std::cin >> std::ws, x);
-    return x;
+double askForDouble(){
+    std::cout << "Enter a double value: ";
+    double d {};
+    std::cin >> d;
+    return d;
 }
 
-int askForAge(){
-    std::cout << "Enter your age: ";
-    int age {};
-    std::cin >> age;
-    return age;
-
+char askForOperator(){
+    std::cout << "Enter one of the following: +, -, *, or /: ";
+    char o {};
+    std::cin >> o;
+    return o;
 }
 
 int main()
 {
-    std::string name = askForName();
-    int age = askForAge();
-    int sum = age + std::ssize(name);
-    std::cout << "Your name + length of name is: " << sum;
+    double d1 = askForDouble();
+    double d2 = askForDouble();
+    char o = askForOperator();
+
+    if (o == '+')
+        std::cout << d1 << " + " << d2 << " is " << d1 + d2;
+    else if (o == '-')
+        std::cout << d1 << " - " << d2 << " is " << d1 - d2;
+    else if (o == '*')
+        std::cout << d1 << " * " << d2 << " is " << d1 * d2;
+    else if (o == '/')
+        std::cout << d1 << " / " << d2 << " is " << d1 / d2;
+
     return 0;
 }
