@@ -1,24 +1,25 @@
 #include <iostream>
 
+int askForNumber(){
+    std::cout << "Enter a number between 0 and 9 : ";
+    int x {};
+    std::cin >> x;
+    if (x < 0 || x > 9)
+        askForNumber();
+    else
+        return x;
+}
+
+bool isPrime(int n){
+    return n == 2 || n == 3 || n == 5 || n == 7;
+}
+
 int main()
 {
-    unsigned short x{ 65535 }; // largest 16-bit unsigned value possible
-    std::cout << "x was: " << x << '\n';
-
-    x = 65536; // 65536 is out of our range, so we get modulo wrap-around
-    std::cout << "x is now: " << x << '\n';
-
-    x = 65537; // 65537 is out of our range, so we get modulo wrap-around
-    std::cout << "x is now: " << x << '\n';
-
-    unsigned short y{ 0 }; // smallest 2-byte unsigned value possible
-    std::cout << "y was: " << y << '\n';
-
-    y = -1; // -1 is out of our range, so we get modulo wrap-around
-    std::cout << "y is now: " << y << '\n';
-
-    y = -2; // -2 is out of our range, so we get modulo wrap-around
-    std::cout << "y is now: " << y << '\n';
-
+    int choice = askForNumber();
+    if(isPrime(choice))
+        std::cout << "The digit " << choice << " is prime.";
+    else
+        std::cout << "The digit " << choice << " is not prime.";
     return 0;
 }
