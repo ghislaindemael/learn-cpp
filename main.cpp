@@ -1,16 +1,26 @@
 #include <iostream>
+#include <string>
 
-char askForChar(){
-    std::cout << "Enter a single character: ";
-    char x {};
-    std::cin >> x;
+std::string askForName(){
+    std::cout << "Enter your full name: ";
+    std::string x {};
+    std::getline(std::cin >> std::ws, x);
     return x;
 }
 
+int askForAge(){
+    std::cout << "Enter your age: ";
+    int age {};
+    std::cin >> age;
+    return age;
+
+}
 
 int main()
 {
-    char ch = askForChar();
-    std::cout << "You entered '" << ch << "', which has ASCII value " << static_cast<int>(ch) << ".";
+    std::string name = askForName();
+    int age = askForAge();
+    int sum = age + std::ssize(name);
+    std::cout << "Your name + length of name is: " << sum;
     return 0;
 }
