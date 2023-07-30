@@ -1,25 +1,16 @@
 #include <iostream>
 
-int askForNumber(){
-    std::cout << "Enter a number between 0 and 9 : ";
-    int x {};
+char askForChar(){
+    std::cout << "Enter a single character: ";
+    char x {};
     std::cin >> x;
-    if (x < 0 || x > 9)
-        askForNumber();
-    else
-        return x;
+    return x;
 }
 
-bool isPrime(int n){
-    return n == 2 || n == 3 || n == 5 || n == 7;
-}
 
 int main()
 {
-    int choice = askForNumber();
-    if(isPrime(choice))
-        std::cout << "The digit " << choice << " is prime.";
-    else
-        std::cout << "The digit " << choice << " is not prime.";
+    char ch = askForChar();
+    std::cout << "You entered '" << ch << "', which has ASCII value " << static_cast<int>(ch) << ".";
     return 0;
 }
