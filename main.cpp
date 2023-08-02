@@ -4,9 +4,9 @@
 // "rotl" stands for "rotate left"
 std::bitset<4> rotl(std::bitset<4> bits)
 {
-    bool firstBit = bits.test(3);
+    std::bitset<4> firstBit = bits >> 3;
     bits <<=1;
-    bits.set(0,firstBit);
+    bits |= firstBit;
     return bits;
 }
 
