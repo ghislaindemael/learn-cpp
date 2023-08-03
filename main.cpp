@@ -1,36 +1,37 @@
 #include <iostream>
+#include "constants.h"
 
-int askForInt(){
-    std::cout << "Enter an integer: ";
-    int x { };
-    std::cin >> x;
-    return x;
+double calculateHeight(double initialHeight, int seconds)
+{
+    double distanceFallen { myConstants::gravity * seconds * seconds / 2 };
+    double heightNow { initialHeight - distanceFallen };
+
+    // Check whether we've gone under the ground
+    // If so, set the height to ground-level
+    if (heightNow < 0.0)
+        return 0.0;
+    else
+        return heightNow;
 }
 
-void fizzbuzzpop(int x){
-    for(int i { 1 }; i <= x; ++i){
-        std::string fbp { };
-        if(i % 3 == 0){
-            fbp.append("fizz");
-        }
-        if(i % 5 == 0){
-            fbp.append("buzz");
-        }
-        if(i % 7 == 0){
-            fbp.append("pop");
-        }
-        if (fbp.empty()){
-            std::cout << i << "\n";
-        } else {
-            std::cout << fbp << "\n";
-        }
-    }
+void calculateAndPrintHeight(double initialHeight, int time)
+{
+    std::cout << "At " << time << " seconds, the ball is at height: " << calculateHeight(initialHeight, time) << '\n';
 }
 
 int main()
 {
+    std::cout << "Enter the initial height of the tower in meters: ";
+    double initialHeight {};
+    std::cin >> initialHeight;
+    int seconds { 0 };
 
-    fizzbuzzpop(askForInt());
+    while (calculateHeight(initialHeight, seconds) > 0){
+        calculateAndPrintHeight(initialHeight, seconds);
+        ++seconds;
+    }
+
+    calculateAndPrintHeight(initialHeight, seconds);
 
     return 0;
 }
