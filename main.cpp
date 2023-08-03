@@ -2,22 +2,10 @@
 
 int main()
 {
-    // outer loops between 1 and 5
-    int outer{ 5 };
-    while (outer >= 1)
-    {
-        // inner loops between 1 and outer
-        int inner{ outer };
-        while (inner >= 1)
-        {
-            std::cout << inner << ' ';
-            --inner;
-        }
-
-        // print a newline at the end of each row
-        std::cout << '\n';
-        --outer;
+    for( int i { 0 }; i <= 20 ; i += 2){
+        std::cout << i << ' ';
     }
+    std::cout << "\n";
 
     return 0;
 }
