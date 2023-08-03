@@ -3,17 +3,10 @@
 int main()
 {
     // outer loops between 1 and 5
-    int outer{ 1 };
-    while (outer <= 5)
+    int outer{ 5 };
+    while (outer >= 1)
     {
-        int counter { 1 };
-
-        while (counter <= 10 - (2*outer))
-        {
-            std::cout << ' ';
-            ++counter;
-        }
-
+        // inner loops between 1 and outer
         int inner{ outer };
         while (inner >= 1)
         {
@@ -23,7 +16,7 @@ int main()
 
         // print a newline at the end of each row
         std::cout << '\n';
-        ++outer;
+        --outer;
     }
 
     return 0;
