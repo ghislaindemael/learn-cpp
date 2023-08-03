@@ -1,37 +1,44 @@
+#include <cassert>
 #include <iostream>
-#include "constants.h"
 
-double calculateHeight(double initialHeight, int seconds)
+bool isPrime(int x)
 {
-    double distanceFallen { myConstants::gravity * seconds * seconds / 2 };
-    double heightNow { initialHeight - distanceFallen };
+    if(x <= 1){
+        return false;
+    } else if (x == 2){
+        return true;
+    }
 
-    // Check whether we've gone under the ground
-    // If so, set the height to ground-level
-    if (heightNow < 0.0)
-        return 0.0;
-    else
-        return heightNow;
-}
+    for(int i { 2 }; i <= x / 2; ++i){
 
-void calculateAndPrintHeight(double initialHeight, int time)
-{
-    std::cout << "At " << time << " seconds, the ball is at height: " << calculateHeight(initialHeight, time) << '\n';
+        if(x % i == 0){
+           return false;
+        }
+    }
+    return true;
 }
 
 int main()
 {
-    std::cout << "Enter the initial height of the tower in meters: ";
-    double initialHeight {};
-    std::cin >> initialHeight;
-    int seconds { 0 };
+    assert(!isPrime(0));
+    assert(!isPrime(1));
+    assert(isPrime(2));
+    assert(isPrime(3));
+    assert(!isPrime(4));
+    assert(isPrime(5));
+    assert(isPrime(7));
+    assert(!isPrime(9));
+    assert(isPrime(11));
+    assert(isPrime(13));
+    assert(!isPrime(15));
+    assert(!isPrime(16));
+    assert(isPrime(17));
+    assert(isPrime(19));
+    assert(isPrime(97));
+    assert(!isPrime(99));
+    assert(isPrime(13417));
 
-    while (calculateHeight(initialHeight, seconds) > 0){
-        calculateAndPrintHeight(initialHeight, seconds);
-        ++seconds;
-    }
-
-    calculateAndPrintHeight(initialHeight, seconds);
+    std::cout << "Success!\n";
 
     return 0;
 }
