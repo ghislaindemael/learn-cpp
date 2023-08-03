@@ -7,17 +7,22 @@ int askForInt(){
     return x;
 }
 
-void fizzbuzz(int x){
+void fizzbuzzpop(int x){
     for(int i { 1 }; i <= x; ++i){
-
-        if(i % 3 == 0 && i % 5 == 0){
-            std::cout << "fizzbuzz" << "\n";
-        } else if (i % 3 == 0) {
-            std::cout << "fizz" << "\n";
-        } else if (i % 5 == 0){
-            std::cout << "buzz" << "\n";
-        } else {
+        std::string fbp { };
+        if(i % 3 == 0){
+            fbp.append("fizz");
+        }
+        if(i % 5 == 0){
+            fbp.append("buzz");
+        }
+        if(i % 7 == 0){
+            fbp.append("pop");
+        }
+        if (fbp.empty()){
             std::cout << i << "\n";
+        } else {
+            std::cout << fbp << "\n";
         }
     }
 }
@@ -25,7 +30,7 @@ void fizzbuzz(int x){
 int main()
 {
 
-    fizzbuzz(askForInt());
+    fizzbuzzpop(askForInt());
 
     return 0;
 }
