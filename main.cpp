@@ -1,18 +1,45 @@
 #include <iostream>
 
-int accumulate(int x){
+int askForInt(){
+    std::cout << "Enter an integer: ";
+    int i {};
+    std::cin >> i;
+    return i;
+}
 
-    static int s_sum {0};
-    s_sum += x;
-    return s_sum;
+char askForOperator(){
+    std::cout << "Enter one of the following (+, -, *, /, %): ";
+    char o {};
+    std::cin >> o;
+    return o;
 }
 
 int main()
 {
-    std::cout << accumulate(4) << '\n'; // prints 4
-    std::cout << accumulate(3) << '\n'; // prints 7
-    std::cout << accumulate(2) << '\n'; // prints 9
-    std::cout << accumulate(1) << '\n'; // prints 10
+    int i1 { askForInt() };
+    int i2 { askForInt() };
+    int result {};
+
+    switch (askForOperator()) {
+        case '+':
+            result = i1 + i2;
+            break;
+        case '-':
+            result = i1 - i2;
+            break;
+        case '*':
+            result = i1 * i2;
+            break;
+        case '/':
+            result = i1 / i2;
+            break;
+        case '%':
+            result = i1 % i2;
+            break;
+    }
+
+    std::cout << "The result is " << result << "\n";
+
 
     return 0;
 }
