@@ -1,11 +1,24 @@
 #include <iostream>
 
+int askForInt(){
+    std::cout << "Enter an integer: ";
+    int x { };
+    std::cin >> x;
+    return x;
+}
+
+int sumTo(int x){
+    int sum { 0 };
+    for( int i { x }; i >=0 ; --i){
+        sum += i;
+    }
+    return sum;
+}
+
 int main()
 {
-    for( int i { 0 }; i <= 20 ; i += 2){
-        std::cout << i << ' ';
-    }
-    std::cout << "\n";
+
+    std::cout << sumTo(askForInt());
 
     return 0;
 }
