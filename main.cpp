@@ -1,44 +1,70 @@
 #include <cassert>
 #include <iostream>
+#include "random.h"
 
-bool isPrime(int x)
-{
-    if(x <= 1){
+int askForInt(){
+    int x{ };
+    do {
+        std::cin >> x;
+        if(std::cin.fail()){
+            std::cout << "Please enter a valid input.\n";
+            std::cin.clear();
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    while (x <= 0 || x > 100);
+    return x;
+}
+
+bool playAgain(){
+    char c {};
+    do {
+        std::cout << "Would you like to play again (y/n)? ";
+        std::cin >> c;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    while (c != 'y' && c != 'n');
+    return c == 'y';
+}
+
+bool highLow(int toFind, int guess){
+    if(guess > toFind){
+        std::cout << "Your guess is too high.\n";
         return false;
-    } else if (x == 2){
+    } else if (guess < toFind){
+        std::cout << "Your guess is too low.\n";
+        return false;
+    } else {
         return true;
     }
-
-    for(int i { 2 }; i <= x / 2; ++i){
-
-        if(x % i == 0){
-           return false;
-        }
-    }
-    return true;
 }
 
 int main()
 {
-    assert(!isPrime(0));
-    assert(!isPrime(1));
-    assert(isPrime(2));
-    assert(isPrime(3));
-    assert(!isPrime(4));
-    assert(isPrime(5));
-    assert(isPrime(7));
-    assert(!isPrime(9));
-    assert(isPrime(11));
-    assert(isPrime(13));
-    assert(!isPrime(15));
-    assert(!isPrime(16));
-    assert(isPrime(17));
-    assert(isPrime(19));
-    assert(isPrime(97));
-    assert(!isPrime(99));
-    assert(isPrime(13417));
+start:
+    std::cout << "Let's play a game. I'm thinking of a number between 1 and 100. You have 7 tries to guess it.\n";
+    int number { Random::get(1, 100)};
+    bool found { false };
 
-    std::cout << "Success!\n";
+    for(int i { 1 }; i <= 7; ++i){
+        std::cout << "Guess #" << i << ": ";
+        int guess { askForInt() };
+
+        if(highLow(number, guess)){
+            found = true;
+            break;
+        }
+    }
+
+    if(found){
+        std::cout << "Correct! You win!";
+    } else {
+        std::cout << "Sorry, you lose. The correct number was " << number << ".\n";
+    }
+    
+    if(playAgain()){
+        goto start;
+    }
 
     return 0;
 }
