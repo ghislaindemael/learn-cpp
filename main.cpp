@@ -1,34 +1,18 @@
-#include <bitset>
 #include <iostream>
-
-int askForInt(){
-    std::cout << "Enter an integer: ";
-    int i {};
-    std::cin >> i;
-    return i;
-}
-
-int askforLarger(){
-    std::cout << "Enter a larger integer: ";
-    int i {};
-    std::cin >> i;
-    return i;
-}
 
 int main()
 {
-    int smaller { askForInt() };
-    int larger { askforLarger() };
+    std::cout << "Enter a positive number: ";
+    int num{};
+    std::cin >> num;
 
-    if(smaller > larger){
-        std::cout << "Swapping the values\n";
-        int temp { larger };
-        larger = smaller;
-        smaller = temp;
-    } //temp dies here
 
-    std::cout << "The smaller value is " << smaller << "\n";
-    std::cout << "The larger value is " << larger << "\n";
+    if (num < 0) {
+        std::cout << "Negative number entered.  Making positive.\n";
+        num = -num;
+    }
+
+    std::cout << "You entered: " << num;
 
     return 0;
-} //smaller and larger die here
+}
