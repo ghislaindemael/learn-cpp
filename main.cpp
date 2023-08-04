@@ -1,26 +1,15 @@
 #include <iostream>
 
-namespace constants
-{
-    inline constexpr double pi{ 3.14159 };
-}
+// write your add function template here
 
-using Degrees = double;
-using Radians = double;
-
-Radians convertToRadians(Degrees degrees)
-{
-    return degrees * constants::pi / 180;
+auto add(auto x, auto y){
+    return x + y;
 }
 
 int main()
 {
-    std::cout << "Enter a number of degrees: ";
-    Degrees degrees{};
-    std::cin >> degrees;
-
-    Radians radians{ convertToRadians(degrees) };
-    std::cout << degrees << " degrees is " << radians << " radians.\n";
+    std::cout << add(2, 3) << '\n';
+    std::cout << add(1.2, 3.4) << '\n';
 
     return 0;
 }
