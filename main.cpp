@@ -1,39 +1,29 @@
 #include <iostream>
 #include <string>
 
-enum MonsterType {
-    Ogre,
-    Dragon,
-    Orc,
-    GiantSpider,
-    Slime
+template <typename T>
+struct Triad
+{
+    T first {};
+    T second {};
+    T third {};
 };
 
-struct Monster {
-    MonsterType type {};
-    std::string name {};
-    int health {};
-};
+template <typename T>
+Triad(T, T, T) -> Triad<T>;
 
-void printMonster(Monster& m){
-    std::cout << "This ";
-
-    switch (m.type) {
-        case Ogre: std::cout << "Ogre"; break;
-        case Dragon: std::cout << "Dragon"; break;
-        case Orc: std::cout << "Orc"; break;
-        case GiantSpider: std::cout << "Giant Spider"; break;
-        case Slime: std::cout << "Slime"; break;
-    }
-
-    std::cout << " is named " << m.name << " and has " << m.health << " health.\n";
+template <typename T>
+void print(Triad<T> t){
+    std::cout << '[' << t.first << ", " << t.second << ", " << t.third <<']';
 }
 
 int main()
 {
-    Monster ogre { MonsterType::Ogre, "Torg", 145};
-    printMonster(ogre);
-    Monster slime { MonsterType::Slime, "Blurp", 23};
-    printMonster(slime);
+    Triad t1{ 1, 2, 3 }; // note: uses CTAD to deduce template arguments
+    print(t1);
+
+    Triad t2{ 1.2, 3.4, 5.6 }; // note: uses CTAD to deduce template arguments
+    print(t2);
+
     return 0;
 }
