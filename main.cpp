@@ -1,15 +1,24 @@
 #include <iostream>
 
-// write your sub function template here
-auto sub(auto x, auto y){
-    return x - y;
+void sort2(int& a, int& b)
+{
+    if (a > b) {
+        int temp = b;
+        b = a;
+        a = temp;
+    }
 }
 
 int main()
 {
-    std::cout << sub(3, 2) << '\n';
-    std::cout << sub(3.5, 2) << '\n';
-    std::cout << sub(4, 1.5) << '\n';
+    int x { 7 };
+    int y { 5 };
+
+    sort2(x, y);
+    std::cout << x << ' ' << y << '\n'; // should print 5 7
+
+    sort2(x, y);
+    std::cout << x << ' ' << y << '\n'; // should print 5 7
 
     return 0;
 }
