@@ -1,24 +1,20 @@
 #include <iostream>
 
-void sort2(int& a, int& b)
-{
-    if (a > b) {
-        int temp = b;
-        b = a;
-        a = temp;
-    }
+namespace Monster {
+    enum MonsterType {
+        orc,
+        goblin,
+        troll,
+        ogre,
+        skeleton,
+    };
 }
 
 int main()
 {
-    int x { 7 };
-    int y { 5 };
 
-    sort2(x, y);
-    std::cout << x << ' ' << y << '\n'; // should print 5 7
-
-    sort2(x, y);
-    std::cout << x << ' ' << y << '\n'; // should print 5 7
+    Monster::MonsterType troll {Monster::troll };
+    std::cout << troll;
 
     return 0;
 }
