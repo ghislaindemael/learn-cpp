@@ -1,24 +1,31 @@
 #include <iostream>
+#include <string>
 
-struct AdInsights {
-    int adsWatched {};
-    double percentageClicked {};
-    double avgEarnings {};
+struct Fraction {
+    int numerator {};
+    int denominator {};
 };
 
-void getAdInsights(AdInsights ai){
-    std::cout << ai.adsWatched << " ads were watched today.\n";
-    std::cout << ai.percentageClicked * 100 << " % of users clicked on an ad.\n";
-    std::cout << "Your average earnings per ad stand at: " << ai.avgEarnings << " E.\n";
+int askForFracPart(bool numerator){
+    std::cout << "Enter a value for the " << (numerator ? "numerator" : "denominator") << ": ";
+    int x {};
+    std::cin >> x;
+    return x;
+}
 
-    double earnings = ai.adsWatched * ai.percentageClicked * ai.avgEarnings;
-    std::cout << "You earned " << earnings << " euros today.\n";
+Fraction multiplyFractions(Fraction f1, Fraction f2){
+    return {f1.numerator * f2.numerator, f1.denominator * f2.denominator};
+}
 
+std::string printFrac(Fraction f){
+    return std::to_string(f.numerator) + "/" + std::to_string(f.denominator);
 }
 
 int main()
 {
-    AdInsights today {500, 0.25, 0.05};
-    getAdInsights(today);
+    Fraction f1 {askForFracPart(true), askForFracPart(false)};
+    Fraction f2 {askForFracPart(true), askForFracPart(false)};
+
+    std::cout << "Your fractions multiplied together: " << printFrac(multiplyFractions(f1, f2));
     return 0;
 }
