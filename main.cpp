@@ -1,31 +1,39 @@
 #include <iostream>
 #include <string>
 
-struct Fraction {
-    int numerator {};
-    int denominator {};
+enum MonsterType {
+    Ogre,
+    Dragon,
+    Orc,
+    GiantSpider,
+    Slime
 };
 
-int askForFracPart(bool numerator){
-    std::cout << "Enter a value for the " << (numerator ? "numerator" : "denominator") << ": ";
-    int x {};
-    std::cin >> x;
-    return x;
-}
+struct Monster {
+    MonsterType type {};
+    std::string name {};
+    int health {};
+};
 
-Fraction multiplyFractions(Fraction f1, Fraction f2){
-    return {f1.numerator * f2.numerator, f1.denominator * f2.denominator};
-}
+void printMonster(Monster& m){
+    std::cout << "This ";
 
-std::string printFrac(Fraction f){
-    return std::to_string(f.numerator) + "/" + std::to_string(f.denominator);
+    switch (m.type) {
+        case Ogre: std::cout << "Ogre"; break;
+        case Dragon: std::cout << "Dragon"; break;
+        case Orc: std::cout << "Orc"; break;
+        case GiantSpider: std::cout << "Giant Spider"; break;
+        case Slime: std::cout << "Slime"; break;
+    }
+
+    std::cout << " is named " << m.name << " and has " << m.health << " health.\n";
 }
 
 int main()
 {
-    Fraction f1 {askForFracPart(true), askForFracPart(false)};
-    Fraction f2 {askForFracPart(true), askForFracPart(false)};
-
-    std::cout << "Your fractions multiplied together: " << printFrac(multiplyFractions(f1, f2));
+    Monster ogre { MonsterType::Ogre, "Torg", 145};
+    printMonster(ogre);
+    Monster slime { MonsterType::Slime, "Blurp", 23};
+    printMonster(slime);
     return 0;
 }
