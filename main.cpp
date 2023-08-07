@@ -1,52 +1,24 @@
 #include <iostream>
 
-enum class Animal {
-    pig,
-    chicken,
-    goat,
-    cat,
-    dog,
-    duck,
+struct AdInsights {
+    int adsWatched {};
+    double percentageClicked {};
+    double avgEarnings {};
 };
 
-std::string_view getAnimalName(Animal a){
-    using enum Animal;
-    switch (a) {
-        case pig: return "pig";
-        case chicken: return "chicken";
-        case goat: return "goat";
-        case cat: return "cat";
-        case dog: return "dog";
-        case duck: return "duck";
-        default: return "???";
-    }
-}
+void getAdInsights(AdInsights ai){
+    std::cout << ai.adsWatched << " ads were watched today.\n";
+    std::cout << ai.percentageClicked * 100 << " % of users clicked on an ad.\n";
+    std::cout << "Your average earnings per ad stand at: " << ai.avgEarnings << " E.\n";
 
-int getNumberOfLegs(Animal a){
-    using enum Animal;
-    switch (a) {
-        case pig:
-        case goat:
-        case cat:
-        case dog:
-            return 4;
-        case chicken:;
-        case duck:
-            return 2;
-        default:
-            return 0;
-    }
-}
+    double earnings = ai.adsWatched * ai.percentageClicked * ai.avgEarnings;
+    std::cout << "You earned " << earnings << " euros today.\n";
 
-void printNumberOfLegs(Animal a){
-    std::cout << "A " << getAnimalName(a) << " has " << getNumberOfLegs(a) << " legs.\n";
 }
-
 
 int main()
 {
-    printNumberOfLegs(Animal::cat);
-    printNumberOfLegs(Animal::chicken);
-
+    AdInsights today {500, 0.25, 0.05};
+    getAdInsights(today);
     return 0;
 }
