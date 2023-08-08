@@ -3,20 +3,24 @@
 
 int main()
 {
-    constexpr int scores[]{ 84, 92, 76, 81, 56 };
+    int divArray[]{3, 5, 7, 11, 13, 17, 19};
+    std::string wordArray[]{ "fizz","buzz", "pop", "bang", "jazz", "pow", "boom" };
 
-    int maxIndex{ 0 }; // Assume our largest score is 0 to start
-
-    // now look for a larger score in the full array
-    for (int student{ 0 }; student < static_cast<int>(std::size(scores)); ++student)
-    {
-        if (scores[student] > scores[maxIndex])
-        {
-            maxIndex = student;
+    for(int i { 1 }; i <= 150; ++i){
+        bool semiPrime = true;
+        for(int j { 0 }; j < 7; ++j){
+            if(i % divArray[j] == 0){
+                semiPrime = false;
+                std::cout << wordArray[j];
+            }
         }
+        if(semiPrime){
+            std::cout << i;
+        }
+        std::cout << "\n";
     }
 
-    std::cout << "The best score was " << scores[maxIndex] << '.\n';
+
 
     return 0;
 }
