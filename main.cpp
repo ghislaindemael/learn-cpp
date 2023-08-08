@@ -1,31 +1,29 @@
 #include <iostream>
 #include <iterator>
-#include <utility>
+
+int* findValue(int* ptr1, int* ptr2, int num){
+    int* ptr { ptr1 };
+    while(ptr != ptr2){
+        if(*ptr == num){
+            return ptr;
+        }
+        ++ptr;
+    }
+    return ptr2;
+}
 
 int main()
 {
-    int array[]{ 6, 3, 2, 9, 7, 1, 5, 4, 8 };
-    constexpr int length{ static_cast<int>(std::size(array)) };
+    int arr[]{ 2, 5, 4, 10, 8, 22, 16, 40 };
 
-    for (int startIndex{ 0 }; startIndex < length - 1; ++startIndex) {
-        bool sorted { true } ;
-        for(int nestedIndex { 0 }; nestedIndex < length - startIndex - 1; ++nestedIndex){
-            if(array[nestedIndex] > array[nestedIndex + 1]){
-                sorted = false;
-                std::swap(array[nestedIndex], array[nestedIndex + 1]);
-            }
-        }
-        if(sorted){
-            std::cout << "Early termination on iteration " << startIndex + 1 << "\n";
-            break;
-        }
-    }
+    // Search for the first element with value 20.
+    int* found{ findValue(std::begin(arr), std::end(arr), 20) };
 
-    // Now that the whole array is sorted, print our sorted array as proof it works
-    for (int index{ 0 }; index < length; ++index) {
-        std::cout << array[index] << ' ';
+    // If an element with value 20 was found, print it.
+    if (found != std::end(arr))
+    {
+        std::cout << *found << '\n';
     }
-    std::cout << '\n';
 
     return 0;
 }
