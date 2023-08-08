@@ -1,34 +1,22 @@
 #include <iostream>
-#include <string>
+#include <iterator> // for std::size
 
 int main()
 {
-    constexpr int array[]{ 4, 6, 7, 3, 8, 2, 1, 9, 5 };
+    constexpr int scores[]{ 84, 92, 76, 81, 56 };
 
-    int toSearch {};
-    do {
-        std::cout << "Enter a number between 1 and 9: ";
-        std::cin >> toSearch;
+    int maxIndex{ 0 }; // Assume our largest score is 0 to start
 
-        if (std::cin.fail())
+    // now look for a larger score in the full array
+    for (int student{ 0 }; student < static_cast<int>(std::size(scores)); ++student)
+    {
+        if (scores[student] > scores[maxIndex])
         {
-            std::cin.clear(); // reset any error flags
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // ignore any characters in the input buffer
-        }
-    } while (toSearch < 1 || toSearch > 9);
-
-    for(int i {0}; i < 9; ++i){
-        std::cout << array[i] << ' ';
-    }
-    std::cout << "\n";
-
-    for(int i {0}; i < 9; ++i){
-        if(array[i] == toSearch){
-            std::cout << "The number " << toSearch << " has index " << i << "\n";
+            maxIndex = student;
         }
     }
 
-
+    std::cout << "The best score was " << scores[maxIndex] << '.\n';
 
     return 0;
 }
