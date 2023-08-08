@@ -3,11 +3,13 @@
 
 int main()
 {
-    std::string str{ "I saw a red car yesterday." };
+    double highestTemp[365]{};
+    for (double & i : highestTemp) {
+        i = 0.0;
+    }
+    std::cout << highestTemp[54];
 
-    str.replace(8, 3, "blue");
 
-    std::cout << str << '\n'; // I saw a blue car yesterday.
 
     return 0;
 }
