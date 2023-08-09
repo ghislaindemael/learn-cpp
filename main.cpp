@@ -2,6 +2,7 @@
 #include <array>
 #include <algorithm>
 #include <random>
+#include <execution>
 
 namespace {
     enum Rank{
@@ -19,7 +20,8 @@ namespace {
         KING,
         ACE,
 
-        NUM_RANKS
+        NUM_RANKS,
+        DEF_RANK
     };
 
     enum Suit{
@@ -28,7 +30,9 @@ namespace {
         HEARTS,
         SPADES,
 
-        NUM_SUITS
+        NUM_SUITS,
+        DEF_SUIT
+
     };
 }
 
@@ -103,18 +107,91 @@ int getCardValue(Card c){
     return val;
 }
 
+Card drawCard(std::array<Card, 52>& deck){
+    Card c = deck.front();
+    for (int i { 1 }; i < deck.size(); ++i) {
+        deck[i - 1] = deck[i];
+    }
+    deck[deck.size() - 1].rank = DEF_RANK;
+    deck[deck.size() - 1].suit = DEF_SUIT;
+    return c;
+}
+
+int calcScore(std::vector<Card>& cards){
+    int s { 0 };
+    for(Card c : cards){
+        s += getCardValue(c);
+    }
+    return s;
+}
+
+bool playBlackjack(std::array<Card, 52> deck){
+    std::vector<Card> dealerCards {};
+    std::vector<Card> playerCards {};
+    dealerCards.push_back(drawCard(deck));
+    playerCards.push_back(drawCard(deck));
+    playerCards.push_back(drawCard(deck));
+
+    std::cout << "Your cards: ";
+    for(Card c : playerCards){
+        printCard(c);
+        std::cout << ' ';
+    }
+    std::cout << "\n";
+
+    char ans {};
+    do {
+        ans = '-';
+        std::cout << "Hit or stand (h / s) ? ";
+        std::cin >> ans;
+
+        if(ans == 'h'){
+            playerCards.push_back(drawCard(deck));
+            std::cout << "Your cards: ";
+            for(Card c : playerCards){
+                printCard(c);
+                std::cout << ' ';
+            }
+            std::cout << "\n";
+        }
+
+    } while (ans == 'h');
+
+    int playerScore {calcScore(playerCards)};
+
+    if(playerScore > 21){
+        return false;
+    }
+
+    do {
+        dealerCards.push_back(drawCard(deck));
+    } while (calcScore(dealerCards) < 17);
+
+    int dealerScore {calcScore(dealerCards)};
+
+    std::cout << "Player: " << playerScore << ", Dealer: " << dealerScore << "\n";
+
+    if(dealerScore > 21){
+        return true;
+    } else if(playerScore < dealerScore){
+        return false;
+    } else {
+        return true;
+    }
+}
+
 int main()
 {
     std::array<Card, 52> deck { createDeck() };
-    printDeck(deck);
     shuffleDeck(deck);
-    printDeck(deck);
 
-    for (Card c : deck) {
-        std::cout << getCardValue(c);
-        std::cout << ' ';
+    bool playerWon { playBlackjack(deck) };
+
+    if(playerWon){
+        std::cout << "Congratulations ! You won !\n";
+    } else {
+        std::cout << "Sadly, you lost.\n";
     }
-
 
     return 0;
 }
