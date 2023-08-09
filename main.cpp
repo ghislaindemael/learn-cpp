@@ -1,17 +1,24 @@
 #include <iostream>
 #include <functional>
+#include <cmath>
 
-int factorial(int n){
-    if(n == 0 || n == 1){
-        return 1;
-    } else {
-        return n * factorial(n - 1);
+int sumOfDigits(int number){
+    int dig = static_cast<int>(std::log10(number) + 1);
+    if(dig <= 0){
+        return 0;
     }
+    std::cout << number << " -> " << dig << "\n";
+
+    int curDigit { number / static_cast<int>(pow(10, dig - 1)) };
+    std::cout << "Top num -> " << curDigit << "\n";
+    return curDigit + sumOfDigits(number % static_cast<int>(pow(10, dig - 1)));
 }
 
 int main()
 {
-    std::cout << "Factorial of 7 is: " << factorial(7) << "\n";
+    int number { 123456789 };
+    std::cout << sumOfDigits(number);
+
 
     return 0;
 }
