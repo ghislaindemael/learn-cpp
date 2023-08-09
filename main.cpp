@@ -1,22 +1,21 @@
-#include <algorithm> // std::sort
-#include <cstddef> // std::size_t
 #include <iostream>
-#include <string>
-#include <vector>
 
-void swap(int& a, int& b){
-    int temp = a;
-    a = b;
-    b = temp;
+
+void printString(const char* str)
+{
+
+    while (*str != '\0')
+    {
+        std::cout << *str;
+        ++str;
+    }
 }
-
 
 int main()
 {
-    int a { 5 };
-    int b { 10 };
-    swap(a, b);
-    std::cout << a << ' ' << b << "\n";
+    printString("Hello world!");
+
+    std::cout << '\n';
 
     return 0;
 }
