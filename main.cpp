@@ -1,24 +1,31 @@
+#include <array>
+#include <numeric> // std::reduce
 #include <iostream>
-#include <string>
+
+// We want to use ItemTypes to index an array. Use enum rather than enum class.
+enum ItemTypes
+{
+    item_health_potion,
+    item_torch,
+    item_arrow,
+    max_items
+};
+
+using Inventory = std::array<int, ItemTypes::max_items>;
+
+int countTotalItems(const Inventory& items)
+{
+    return std::reduce(items.begin(), items.end());
+}
 
 int main()
 {
-    std::string_view names[]{ "Alex", "Betty", "Caroline", "Dave", "Emily", "Fred", "Greg", "Holly"};
-    std::cout << "Enter a name: ";
-    std::string input { };
-    std::cin >> input;
+    Inventory items{ 2, 5, 10 };
 
-    bool found { false };
-    for(std::string_view sv : names){
-        if(sv == input){
-            std::cout << sv << " was found !";
-            found = true;
-        }
-    }
+    std::cout << "The player has " << countTotalItems(items) << " item(s) in total.\n";
 
-    if(!found){
-        std::cout << input << " was not found.";
-    }
+    // We can access individual items using the enumerators:
+    std::cout << "The player has " << items[ItemTypes::item_torch] << " torch(es)\n";
 
     return 0;
 }
