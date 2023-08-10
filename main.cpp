@@ -1,24 +1,20 @@
 #include <iostream>
-#include <functional>
-#include <cmath>
 
-int sumOfDigits(int number){
-    int dig = static_cast<int>(std::log10(number) + 1);
-    if(dig <= 0){
-        return 0;
+void printBinary(int x)
+{
+	if (x == 0) {
+        return;
     }
-    std::cout << number << " -> " << dig << "\n";
 
-    int curDigit { number / static_cast<int>(pow(10, dig - 1)) };
-    std::cout << "Top num -> " << curDigit << "\n";
-    return curDigit + sumOfDigits(number % static_cast<int>(pow(10, dig - 1)));
+	printBinary(x / 2);
+	std::cout << x % 2;
 }
 
 int main()
 {
-    int number { 123456789 };
-    std::cout << sumOfDigits(number);
+	int x;
+	std::cout << "Enter a positive integer: ";
+	std::cin >> x;
 
-
-    return 0;
+	printBinary(x);
 }
