@@ -1,35 +1,49 @@
 #include <iostream>
-#include <cassert>
-#include <cstdint>
+#include <string>
+#include <string_view>
 
-class RGBA {
-    std::uint8_t m_red;
-    std::uint8_t m_green;
-    std::uint8_t m_blue;
-    std::uint8_t m_alpha;
+class Ball
+{
+private:
+    // Our non-static member initializers
+    std::string m_color{ "black" };
+    double m_radius{ 10.0 };
+
 public:
+    // Default constructor (color and radius will use default value)
+    Ball() = default;
 
-    RGBA(std::uint8_t i_r = 0, std::uint8_t i_g = 0, std::uint8_t i_b = 0, std::uint8_t i_a = 255)
-    : m_red { i_r }
-    , m_green { i_g }
-    , m_blue { i_b }
-    , m_alpha { i_a }
+    // Constructor with only radius parameter (color will use default value)
+    Ball(double radius) : m_radius{ radius }
     {}
 
-    void print(){
-        std::cout
-        << "r=" << static_cast<int>(m_red)
-        << " g=" << static_cast<int>(m_green)
-        << " b=" << static_cast<int>(m_blue)
-        << " a=" << static_cast<int>(m_alpha)
-        << "\n";
+    // Constructor with only color parameter (radius will use default value)
+    Ball(std::string_view color) : m_color{ color }
+    {}
+
+    // Constructor with both color and radius parameters
+    Ball(std::string_view color, double radius) : m_color{ color }, m_radius{ radius }
+    {}
+
+    void print()
+    {
+        std::cout << "color: " << m_color << ", radius: " << m_radius << '\n';
     }
 };
 
 int main()
 {
-    RGBA teal{ 0, 127, 127 };
-    teal.print();
+    Ball def;
+    def.print();
+
+    Ball blue{ "blue" };
+    blue.print();
+
+    Ball twenty{ 20.0 };
+    twenty.print();
+
+    Ball blueTwenty{ "blue", 20.0 };
+    blueTwenty.print();
 
     return 0;
 }
