@@ -1,59 +1,39 @@
 #include <iostream>
 #include <cassert>
 
-class Stack {
-    int array[10]{};
-    int size { 0 };
+class Ball {
+    std::string_view m_color { "black" };
+    double m_radius { 10.0 };
 public:
-    void reset(){
-        for(int i : array){
-            i = 0;
-        }
-        size = 0;
+    Ball() = default;
+    Ball(double d){
+        m_radius = d;
     }
-    bool push(int p){
-        if(size < 10){
-            array[size] = p;
-            ++size;
-            return true;
-        }
-        return false;
+    Ball(std::string_view s){
+        m_color = s;
     }
-    int pop(){
-        assert(size > 0);
-        int v { array[size - 1] };
-        array[size - 1] = 0;
-        --size;
-        return v;
+    Ball(std::string_view s, double d){
+        m_color = s;
+        m_radius = d;
     }
     void print(){
-        std::cout << "( ";
-        for(int i : array){
-            if (i != 0) {
-                std::cout << i << ' ';
-            }
-        }
-        std::cout << ")\n";
+        std::cout << "color: " << m_color << ", radius: " << m_radius << "\n";
     }
 };
 
 int main()
 {
-    Stack stack;
-    stack.print();
+    Ball def{};
+    def.print();
 
-    stack.push(5);
-    stack.push(3);
-    stack.push(8);
-    stack.print();
+    Ball blue{ "blue" };
+    blue.print();
 
-    stack.pop();
-    stack.print();
+    Ball twenty{ 20.0 };
+    twenty.print();
 
-    stack.pop();
-    stack.pop();
-
-    stack.print();
+    Ball blueTwenty{ "blue", 20.0 };
+    blueTwenty.print();
 
     return 0;
 }
