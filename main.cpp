@@ -1,29 +1,59 @@
 #include <iostream>
+#include <cassert>
 
-class IntPair {
+class Stack {
+    int array[10]{};
+    int size { 0 };
 public:
-    int i1 {};
-    int i2 {};
-
-    void print(){
-        std::cout << "Pair(" << i1 << ", " << i2 <<")\n";
+    void reset(){
+        for(int i : array){
+            i = 0;
+        }
+        size = 0;
     }
-
-    void set(int i, int j){
-        i1 = i;
-        i2 = j;
+    bool push(int p){
+        if(size < 10){
+            array[size] = p;
+            ++size;
+            return true;
+        }
+        return false;
+    }
+    int pop(){
+        assert(size > 0);
+        int v { array[size - 1] };
+        array[size - 1] = 0;
+        --size;
+        return v;
+    }
+    void print(){
+        std::cout << "( ";
+        for(int i : array){
+            if (i != 0) {
+                std::cout << i << ' ';
+            }
+        }
+        std::cout << ")\n";
     }
 };
 
 int main()
 {
-    IntPair p1;
-    p1.set(1, 1); // set p1 values to (1, 1)
+    Stack stack;
+    stack.print();
 
-    IntPair p2 { 2, 2 }; // initialize p2 values to (2, 2)
+    stack.push(5);
+    stack.push(3);
+    stack.push(8);
+    stack.print();
 
-    p1.print();
-    p2.print();
+    stack.pop();
+    stack.print();
+
+    stack.pop();
+    stack.pop();
+
+    stack.print();
 
     return 0;
 }
