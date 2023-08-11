@@ -2,31 +2,67 @@
 #include <string>
 #include <string_view>
 #include <cmath>
+#include <array>
+#include "random.h"
 
-class Point2d {
-    double m_x { 0.0 };
-    double m_y { 0.0 };
+class Monster {
 public:
-    Point2d() = default;
-    Point2d(double i_x, double i_y) : m_x { i_x }, m_y { i_y } {};
-    void print(){
-        std::cout << "Point2d(" << m_x << ", " << m_y << ")\n";
-    }
+    enum Type {
+        Dragon,
+        Goblin,
+        Orc,
+        Skeleton,
+        Troll,
+        Vampire,
+        Zombie,
 
-    friend double distanceFrom(Point2d& p1, Point2d p2);
+        num_types
+    };
+private:
+    Type type;
+    std::string name;
+    std::string roar;
+    int hitPoints;
+public:
+    Monster(Type i_t, std::string_view i_n, std::string_view i_r, int i_h) :
+    type { i_t }, name { i_n }, roar { i_r }, hitPoints { i_h }{}
+    std::string getTypeString(){
+        switch (type) {
+            case Dragon: return "dragon";
+            case Goblin: return "goblin";
+            case Orc: return "orc";
+            case Skeleton: return "skeleton";
+            case Troll: return "troll";
+            case Vampire: return "vampire";
+            case Zombie: return "zombie";
+            default: return "";
+        }
+    }
+    void print(){
+        std::cout << name << " the " << getTypeString() << " has " << hitPoints << " HP and says " << roar << ".\n";
+    }
 };
 
-double distanceFrom(Point2d& p1, Point2d p2) {
-    return std::sqrt((p1.m_x - p2.m_x)*(p1.m_x - p2.m_x) + (p1.m_y - p2.m_y)*(p1.m_y - p2.m_y));
+namespace MonsterGenerator {
+    Monster generate(){
+        int maxIndex { Monster::Type::num_types - 1 };
+        auto type{ static_cast<Monster::Type>(Random::get(0, maxIndex)) };
+        int hitPoints{ Random::get(1, 100) };
+
+        static constexpr std::array s_names{ "Blarg", "Moog", "Pksh", "Tyrn", "Mort", "Hans" };
+        static constexpr std::array s_roars{ "*ROAR*", "*peep*", "*squeal*", "*whine*", "*hum*", "*burp*" };
+
+        auto name { s_names[Random::get<std::size_t>(0, s_names.size() - 1)] };
+        auto roar { s_roars[Random::get<std::size_t>(0, s_roars.size() - 1)] };
+
+        return Monster{ type, name, roar, hitPoints };
+    }
 }
 
 int main()
 {
-    Point2d first{};
-    Point2d second{ 3.0, 4.0 };
-    first.print();
-    second.print();
-    std::cout << "Distance between two points: " << distanceFrom(first, second) << '\n';
+    Monster m{ MonsterGenerator::generate() };
+    m.print();
 
     return 0;
 }
