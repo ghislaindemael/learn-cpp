@@ -1,49 +1,32 @@
 #include <iostream>
 #include <string>
 #include <string_view>
+#include <cmath>
 
-class Ball
-{
-private:
-    // Our non-static member initializers
-    std::string m_color{ "black" };
-    double m_radius{ 10.0 };
-
+class Point2d {
+    double m_x { 0.0 };
+    double m_y { 0.0 };
 public:
-    // Default constructor (color and radius will use default value)
-    Ball() = default;
-
-    // Constructor with only radius parameter (color will use default value)
-    Ball(double radius) : m_radius{ radius }
-    {}
-
-    // Constructor with only color parameter (radius will use default value)
-    Ball(std::string_view color) : m_color{ color }
-    {}
-
-    // Constructor with both color and radius parameters
-    Ball(std::string_view color, double radius) : m_color{ color }, m_radius{ radius }
-    {}
-
-    void print()
-    {
-        std::cout << "color: " << m_color << ", radius: " << m_radius << '\n';
+    Point2d() = default;
+    Point2d(double i_x, double i_y) : m_x { i_x }, m_y { i_y } {};
+    void print(){
+        std::cout << "Point2d(" << m_x << ", " << m_y << ")\n";
     }
+
+    friend double distanceFrom(Point2d& p1, Point2d p2);
 };
+
+double distanceFrom(Point2d& p1, Point2d p2) {
+    return std::sqrt((p1.m_x - p2.m_x)*(p1.m_x - p2.m_x) + (p1.m_y - p2.m_y)*(p1.m_y - p2.m_y));
+}
 
 int main()
 {
-    Ball def;
-    def.print();
-
-    Ball blue{ "blue" };
-    blue.print();
-
-    Ball twenty{ 20.0 };
-    twenty.print();
-
-    Ball blueTwenty{ "blue", 20.0 };
-    blueTwenty.print();
+    Point2d first{};
+    Point2d second{ 3.0, 4.0 };
+    first.print();
+    second.print();
+    std::cout << "Distance between two points: " << distanceFrom(first, second) << '\n';
 
     return 0;
 }
