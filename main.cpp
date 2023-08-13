@@ -1,67 +1,80 @@
 #include <iostream>
-#include <numeric>
+#include <numeric> // for std::gcd
 
-class Fraction {
-    int m_num { 0 };
-    int m_den { 1 };
+class Fraction
+{
+private:
+    int m_numerator{};
+    int m_denominator{};
+
 public:
-    Fraction() = default;
-    Fraction(int i_n, int i_d = 1) : m_num { i_n }, m_den { i_d } { reduce(); }
+    Fraction(int numerator = 0, int denominator = 1) : m_numerator{ numerator }, m_denominator{ denominator } {
+        reduce();
+    }
 
     void reduce()
     {
-        int gcd{ std::gcd(m_num, m_den) };
-        if (gcd) // Make sure we don't try to divide by 0
+        int gcd{ std::gcd(m_numerator, m_denominator) };
+        if (gcd)
         {
-            m_num /= gcd;
-            m_den /= gcd;
+            m_numerator /= gcd;
+            m_denominator /= gcd;
         }
     }
 
-    friend Fraction operator*(Fraction f, int m);
-    friend Fraction operator*(int m, Fraction f);
-    friend Fraction operator*(Fraction f1, Fraction f2);
-    friend std::ostream& operator<< (std::ostream& out, const Fraction& f);
-    friend std::istream& operator>> (std::istream& in, Fraction& f);
-
+    friend std::ostream& operator<<(std::ostream& out, const Fraction& f1);
+    friend bool operator==(Fraction f1, Fraction f2);
+    friend bool operator!=(Fraction f1, Fraction f2);
+    friend bool operator>(Fraction f1, Fraction f2);
+    friend bool operator<(Fraction f1, Fraction f2);
+    friend bool operator>=(Fraction f1, Fraction f2);
+    friend bool operator<=(Fraction f1, Fraction f2);
 };
 
-Fraction operator*(Fraction f, int m) {
-    return { f.m_num * m, f.m_den } ;
-}
-
-Fraction operator*(int m, Fraction f) {
-    return { f.m_num * m, f.m_den };
-}
-
-Fraction operator*(Fraction f1, Fraction f2) {
-    return { f1.m_num * f2.m_num, f1.m_den * f2.m_den };
-}
-
-std::ostream &operator<<(std::ostream &out, const Fraction &f) {
-    return out << f.m_num << '/' << f.m_den;
-}
-
-std::istream& operator>>(std::istream& in, Fraction& f)
+std::ostream& operator<<(std::ostream& out, const Fraction& f1)
 {
-    in >> f.m_num;
-    in.ignore(std::numeric_limits<std::streamsize>::max(), '/');
-    in >> f.m_den;
-    f.reduce();
-    return in;
+    out << f1.m_numerator << '/' << f1.m_denominator;
+    return out;
+}
+
+bool operator==(Fraction f1, Fraction f2) {
+    f1.reduce();
+    f2.reduce();
+    return f1.m_numerator == f2.m_numerator && f1.m_denominator == f2.m_denominator;
+}
+
+bool operator!=(Fraction f1, Fraction f2) {
+    return !operator==(f1, f2);
+}
+
+bool operator>(Fraction f1, Fraction f2) {
+    f1.reduce();
+    f2.reduce();
+    return f1.m_numerator * f2.m_denominator > f2.m_numerator * f1.m_denominator;
+}
+
+bool operator<(Fraction f1, Fraction f2) {
+    return operator>(f2, f1);
+}
+
+bool operator>=(Fraction f1, Fraction f2) {
+    return !operator<(f1, f2);
+}
+
+bool operator<=(Fraction f1, Fraction f2) {
+    return !operator>(f1, f2);;
 }
 
 int main()
 {
-    Fraction f1;
-    std::cout << "Enter fraction 1: ";
-    std::cin >> f1;
+    Fraction f1{ 3, 2 };
+    Fraction f2{ 5, 8 };
 
-    Fraction f2;
-    std::cout << "Enter fraction 2: ";
-    std::cin >> f2;
-
-    std::cout << f1 << " * " << f2 << " is " << f1 * f2 << '\n'; // note: The result of f1 * f2 is an r-value
-
+    std::cout << f1 << ((f1 == f2) ? " == " : " not == ") << f2 << '\n';
+    std::cout << f1 << ((f1 != f2) ? " != " : " not != ") << f2 << '\n';
+    std::cout << f1 << ((f1 < f2) ? " < " : " not < ") << f2 << '\n';
+    std::cout << f1 << ((f1 > f2) ? " > " : " not > ") << f2 << '\n';
+    std::cout << f1 << ((f1 <= f2) ? " <= " : " not <= ") << f2 << '\n';
+    std::cout << f1 << ((f1 >= f2) ? " >= " : " not >= ") << f2 << '\n';
     return 0;
 }
