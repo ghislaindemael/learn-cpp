@@ -5,11 +5,9 @@ class Fraction {
     int m_num { 0 };
     int m_den { 1 };
 public:
-    Fraction(int i_n, int i_d = 1) : m_num { i_n }, m_den {i_d } { reduce(); }
+    Fraction() = default;
+    Fraction(int i_n, int i_d = 1) : m_num { i_n }, m_den { i_d } { reduce(); }
 
-    void print(){
-        std::cout << m_num << '/' << m_den << '\n';
-    }
     void reduce()
     {
         int gcd{ std::gcd(m_num, m_den) };
@@ -23,49 +21,47 @@ public:
     friend Fraction operator*(Fraction f, int m);
     friend Fraction operator*(int m, Fraction f);
     friend Fraction operator*(Fraction f1, Fraction f2);
+    friend std::ostream& operator<< (std::ostream& out, const Fraction& f);
+    friend std::istream& operator>> (std::istream& in, Fraction& f);
 
 };
 
 Fraction operator*(Fraction f, int m) {
-    Fraction toReturn { f.m_num * m, f.m_den };
-    toReturn.reduce();
-    return toReturn ;
+    return { f.m_num * m, f.m_den } ;
 }
 
 Fraction operator*(int m, Fraction f) {
-    Fraction toReturn { f.m_num * m, f.m_den };
-    toReturn.reduce();
-    return toReturn ;
+    return { f.m_num * m, f.m_den };
 }
 
 Fraction operator*(Fraction f1, Fraction f2) {
-    Fraction toReturn { f1.m_num * f2.m_num, f1.m_den * f2.m_den };
-    toReturn.reduce();
-    return toReturn ;
+    return { f1.m_num * f2.m_num, f1.m_den * f2.m_den };
+}
+
+std::ostream &operator<<(std::ostream &out, const Fraction &f) {
+    return out << f.m_num << '/' << f.m_den;
+}
+
+std::istream& operator>>(std::istream& in, Fraction& f)
+{
+    in >> f.m_num;
+    in.ignore(std::numeric_limits<std::streamsize>::max(), '/');
+    in >> f.m_den;
+    f.reduce();
+    return in;
 }
 
 int main()
 {
-    Fraction f1{2, 5};
-    f1.print();
+    Fraction f1;
+    std::cout << "Enter fraction 1: ";
+    std::cin >> f1;
 
-    Fraction f2{3, 8};
-    f2.print();
+    Fraction f2;
+    std::cout << "Enter fraction 2: ";
+    std::cin >> f2;
 
-    Fraction f3{ f1 * f2 };
-    f3.print();
-
-    Fraction f4{ f1 * 2 };
-    f4.print();
-
-    Fraction f5{ 2 * f2 };
-    f5.print();
-
-    Fraction f6{ Fraction{1, 2} * Fraction{2, 3} * Fraction{3, 4} };
-    f6.print();
-
-    Fraction f7{0, 6};
-    f7.print();
+    std::cout << f1 << " * " << f2 << " is " << f1 * f2 << '\n'; // note: The result of f1 * f2 is an r-value
 
     return 0;
 }
