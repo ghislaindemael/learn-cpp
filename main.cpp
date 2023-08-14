@@ -15,39 +15,31 @@ public:
 };
 
 class Apple : public Fruit {
-    double m_fiber { 0.0 };
 public:
-    Apple(std::string i_nam, std::string i_col, double i_fib)
-        : Fruit(std::move(i_nam), std::move(i_col)), m_fiber { i_fib } {}
-    double getFiber() const {
-        return m_fiber;
-    }
+    explicit Apple(std::string i_col = "red") : Fruit("apple", std::move(i_col)) {}
+    explicit Apple(const std::string& i_name, std::string i_col)
+        :Fruit(i_name, std::move(i_col)) {}
+};
+
+class GrannySmith : public Apple {
+public:
+    explicit GrannySmith() : Apple { "granny smith", "green" } {}
 };
 
 class Banana : public Fruit {
 public:
-    Banana(std::string i_nam, std::string i_col) : Fruit(std::move(i_nam), std::move(i_col)) {}
+    explicit Banana(std::string i_col = "yellow") : Fruit("banana", std::move(i_col)) {}
 };
-
-std::ostream& operator<<(std::ostream& out, const Apple& apple)
-{
-    out << "Apple (" << apple.getName() << ", " << apple.getColor() << ", " << apple.getFiber() << ")\n";
-    return out;
-}
-
-std::ostream& operator<<(std::ostream& out, const Banana& banana)
-{
-    out << "Banana (" << banana.getName() << ", " << banana.getColor() << ")\n";
-    return out;
-}
 
 int main()
 {
-    const Apple a{ "Red delicious", "red", 4.2 };
-    std::cout << a << '\n';
+    Apple a{ "red" };
+    Banana b;
+    GrannySmith c;
 
-    const Banana b{ "Cavendish", "yellow" };
-    std::cout << b << '\n';
+    std::cout << "My " << a.getName() << " is " << a.getColor() << ".\n";
+    std::cout << "My " << b.getName() << " is " << b.getColor() << ".\n";
+    std::cout << "My " << c.getName() << " is " << c.getColor() << ".\n";
 
     return 0;
 }
