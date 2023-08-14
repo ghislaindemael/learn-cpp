@@ -1,80 +1,43 @@
 #include <iostream>
-#include <numeric> // for std::gcd
 
-class Fraction
-{
-private:
-    int m_numerator{};
-    int m_denominator{};
-
+class Average {
+    std::int32_t m_sum { 0 };
+    std::int8_t m_count { 0 };
 public:
-    Fraction(int numerator = 0, int denominator = 1) : m_numerator{ numerator }, m_denominator{ denominator } {
-        reduce();
-    }
-
-    void reduce()
+    Average() = default;
+    friend std::ostream& operator<<(std::ostream& out, const Average& average)
     {
-        int gcd{ std::gcd(m_numerator, m_denominator) };
-        if (gcd)
-        {
-            m_numerator /= gcd;
-            m_denominator /= gcd;
-        }
+        out << static_cast<double>(average.m_sum) / average.m_count;
+        return out;
     }
-
-    friend std::ostream& operator<<(std::ostream& out, const Fraction& f1);
-    friend bool operator==(Fraction f1, Fraction f2);
-    friend bool operator!=(Fraction f1, Fraction f2);
-    friend bool operator>(Fraction f1, Fraction f2);
-    friend bool operator<(Fraction f1, Fraction f2);
-    friend bool operator>=(Fraction f1, Fraction f2);
-    friend bool operator<=(Fraction f1, Fraction f2);
+    Average& operator+=(int i){
+        m_sum += i;
+        ++m_count;
+        return *this;
+    }
 };
-
-std::ostream& operator<<(std::ostream& out, const Fraction& f1)
-{
-    out << f1.m_numerator << '/' << f1.m_denominator;
-    return out;
-}
-
-bool operator==(Fraction f1, Fraction f2) {
-    f1.reduce();
-    f2.reduce();
-    return f1.m_numerator == f2.m_numerator && f1.m_denominator == f2.m_denominator;
-}
-
-bool operator!=(Fraction f1, Fraction f2) {
-    return !operator==(f1, f2);
-}
-
-bool operator>(Fraction f1, Fraction f2) {
-    f1.reduce();
-    f2.reduce();
-    return f1.m_numerator * f2.m_denominator > f2.m_numerator * f1.m_denominator;
-}
-
-bool operator<(Fraction f1, Fraction f2) {
-    return operator>(f2, f1);
-}
-
-bool operator>=(Fraction f1, Fraction f2) {
-    return !operator<(f1, f2);
-}
-
-bool operator<=(Fraction f1, Fraction f2) {
-    return !operator>(f1, f2);;
-}
 
 int main()
 {
-    Fraction f1{ 3, 2 };
-    Fraction f2{ 5, 8 };
+    Average avg{};
 
-    std::cout << f1 << ((f1 == f2) ? " == " : " not == ") << f2 << '\n';
-    std::cout << f1 << ((f1 != f2) ? " != " : " not != ") << f2 << '\n';
-    std::cout << f1 << ((f1 < f2) ? " < " : " not < ") << f2 << '\n';
-    std::cout << f1 << ((f1 > f2) ? " > " : " not > ") << f2 << '\n';
-    std::cout << f1 << ((f1 <= f2) ? " <= " : " not <= ") << f2 << '\n';
-    std::cout << f1 << ((f1 >= f2) ? " >= " : " not >= ") << f2 << '\n';
+    avg += 4;
+    std::cout << avg << '\n'; // 4 / 1 = 4
+
+    avg += 8;
+    std::cout << avg << '\n'; // (4 + 8) / 2 = 6
+
+    avg += 24;
+    std::cout << avg << '\n'; // (4 + 8 + 24) / 3 = 12
+
+    avg += -10;
+    std::cout << avg << '\n'; // (4 + 8 + 24 - 10) / 4 = 6.5
+
+    (avg += 6) += 10; // 2 calls chained together
+    std::cout << avg << '\n'; // (4 + 8 + 24 - 10 + 6 + 10) / 6 = 7
+
+    Average copy{ avg };
+    std::cout << copy << '\n';
+
     return 0;
 }
