@@ -29,7 +29,7 @@ namespace Random
     inline std::mt19937 mt{ generate() }; // generates a seeded std::mt19937 and copies it into our global object
 
     // Generate a random int between [min, max] (inclusive)
-    inline int get(int min, int max)
+    inline int getRandomInt(int min, int max)
     {
         return std::uniform_int_distribution{min, max}(mt);
     }
