@@ -1,90 +1,53 @@
-#include <cassert> // for assert()
-#include <initializer_list> // for std::initializer_list
 #include <iostream>
+#include <utility>
 
-class IntArray
-{
-private:
-    int m_length{};
-    int* m_data{};
-
+class Fruit {
+    std::string m_name {};
+    std::string m_color {};
 public:
-    IntArray() = default;
-
-    IntArray(int length)
-            : m_length{ length }
-            , m_data{ new int[static_cast<std::size_t>(length)] {} }
-    {
-
+    Fruit(std::string i_nam, std::string i_col) : m_name { std::move(i_nam) }, m_color { std::move(i_col) } {};
+    std::string_view getName() const {
+        return m_name;
     }
-
-    IntArray(std::initializer_list<int> list) // allow IntArray to be initialized via list initialization
-            : IntArray(static_cast<int>(list.size())) // use delegating constructor to set up initial array
-    {
-        // Now initialize our array from the list
-        int count{ 0 };
-        for (auto element : list)
-        {
-            m_data[count] = element;
-            ++count;
-        }
+    std::string_view getColor() const {
+        return m_color;
     }
-
-    ~IntArray()
-    {
-        delete[] m_data;
-    }
-
-    IntArray(const IntArray&) = delete; // to avoid shallow copies
-    IntArray& operator=(const IntArray& list) = delete; // to avoid shallow copies
-
-    IntArray& operator=(std::initializer_list<int> list)
-    {
-        // If the new list is a different size, reallocate it
-        int length{ static_cast<int>(list.size()) };
-        if (length != m_length)
-        {
-            delete[] m_data;
-            m_length = length;
-            m_data = new int[length]{};
-        }
-
-        // Now initialize our array from the list
-        int count{ 0 };
-        for (auto element : list)
-        {
-            m_data[count] = element;
-            ++count;
-        }
-
-        return *this;
-    }
-
-    int& operator[](int index)
-    {
-        assert(index >= 0 && index < m_length);
-        return m_data[index];
-    }
-
-    int getLength() const { return m_length; }
-
-
 };
+
+class Apple : public Fruit {
+    double m_fiber { 0.0 };
+public:
+    Apple(std::string i_nam, std::string i_col, double i_fib)
+        : Fruit(std::move(i_nam), std::move(i_col)), m_fiber { i_fib } {}
+    double getFiber() const {
+        return m_fiber;
+    }
+};
+
+class Banana : public Fruit {
+public:
+    Banana(std::string i_nam, std::string i_col) : Fruit(std::move(i_nam), std::move(i_col)) {}
+};
+
+std::ostream& operator<<(std::ostream& out, const Apple& apple)
+{
+    out << "Apple (" << apple.getName() << ", " << apple.getColor() << ", " << apple.getFiber() << ")\n";
+    return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const Banana& banana)
+{
+    out << "Banana (" << banana.getName() << ", " << banana.getColor() << ")\n";
+    return out;
+}
 
 int main()
 {
-    IntArray array { 5, 4, 3, 2, 1 }; // initializer list
-    for (int count{ 0 }; count < array.getLength(); ++count)
-        std::cout << array[count] << ' ';
+    const Apple a{ "Red delicious", "red", 4.2 };
+    std::cout << a << '\n';
 
-    std::cout << '\n';
-
-    array = { 1, 3, 5, 7, 9, 11 };
-
-    for (int count{ 0 }; count < array.getLength(); ++count)
-        std::cout << array[count] << ' ';
-
-    std::cout << '\n';
+    const Banana b{ "Cavendish", "yellow" };
+    std::cout << b << '\n';
 
     return 0;
 }
