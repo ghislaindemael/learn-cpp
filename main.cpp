@@ -1,69 +1,83 @@
-#include <array>
 #include <iostream>
+#include <vector>
 
-class Animal
-{
-protected:
-    std::string m_name;
-    std::string m_speak { "???" };
-
-    // We're making this constructor protected because
-    // we don't want people creating Animal objects directly,
-    // but we still want derived classes to be able to use it.
-    Animal(std::string_view name, std::string_view sound)
-            : m_name{ name }, m_speak { sound }
-    {
-    }
-
-    // To prevent slicing (covered later)
-    Animal(const Animal&) = default;
-    Animal& operator=(const Animal&) = default;
-
-public:
-    std::string_view getName() const { return m_name; }
-    std::string_view speak() const { return "???"; }
+struct Point{
+    int p1 { 0 };
+    int p2 { 0 };
 };
 
-class Cat: public Animal
-{
-public:
-    Cat(std::string_view name)
-            : Animal{ name, "Meow"}
-    {
-    }
+std::ostream& operator<<(std::ostream& out, Point p){
+    out << "Point(" << p.p1 << ", " << p.p2 << ")";
+    return out;
+}
 
-    std::string_view speak() const { return "Meow"; }
+class Shape {
+public:
+    virtual std::ostream& print(std::ostream& out) const = 0;
+    friend std::ostream& operator<<(std::ostream& out, const Shape& p){
+        return p.print(out);
+    }
+    virtual ~Shape() = default;
 };
 
-class Dog: public Animal
-{
+class Circle : public Shape {
+    Point m_cp {};
+    int m_radius {};
 public:
-    Dog(std::string_view name)
-            : Animal{ name, "Woof" }
+    Circle(Point i_cp, int i_radius) : m_cp { i_cp }, m_radius { i_radius } {}
+    std::ostream& print(std::ostream& out) const override {
+        out << "Circle (" << m_cp << ", radius" << m_radius << ")";
+        return out;
+    }
+    int getRadius() const {
+        return m_radius;
+    }
+};
+
+class Triangle : public Shape {
+    Point m_p1 {};
+    Point m_p2 {};
+    Point m_p3 {};
+public:
+    Triangle(Point i_p1, Point i_p2, Point i_p3) : m_p1 { i_p1 }, m_p2 { i_p2 }, m_p3 { i_p3 } {}
+    std::ostream& print(std::ostream& out) const override {
+        out << "Triangle (" << m_p1 << ", " << m_p2 << ", " << m_p3 << ")";
+        return out;
+    }
+};
+
+int getLargestRadius(const std::vector<Shape*>& v)
+{
+    int largestRadius{ 0 };
+
+    // Loop through all the shapes in the vector
+    for (const auto* element : v)
     {
+        // // Ensure the dynamic cast succeeds by checking for a null pointer result
+        if (auto * c{ dynamic_cast<const Circle*>(element) })
+        {
+            largestRadius = std::max(largestRadius, c->getRadius());
+        }
     }
 
-    std::string_view speak() const { return "Woof"; }
-};
+    return largestRadius;
+}
 
 int main()
 {
-    const Cat fred{ "Fred" };
-    const Cat misty{ "Misty" };
-    const Cat zeke{ "Zeke" };
+    std::vector<Shape*> v{
+            new Circle{Point{ 1, 2 }, 7},
+            new Triangle{Point{ 1, 2 }, Point{ 3, 4 }, Point{ 5, 6 }},
+            new Circle{Point{ 7, 8 }, 3}
+    };
 
-    const Dog garbo{ "Garbo" };
-    const Dog pooky{ "Pooky" };
-    const Dog truffle{ "Truffle" };
+    for (const auto* element : v) // element will be a Shape*
+        std::cout << *element << '\n';
 
-    // Set up an array of pointers to animals, and set those pointers to our Cat and Dog objects
-    const auto animals{ std::to_array<const Animal*>({ &fred, &garbo, &misty, &pooky, &truffle, &zeke }) };
+    std::cout << "The largest radius is: " << getLargestRadius(v) << '\n';
 
-
-    for (const auto animal : animals)
-    {
-        std::cout << animal->getName() << " says " << animal->speak() << '\n';
-    }
+    for (const auto* element : v)
+        delete element;
 
     return 0;
 }
